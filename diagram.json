@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "author": "The Bin - Hack Club",
+  "author": "Nicolas Landucci",
   "editor": "wokwi",
   "parts": [
     { "type": "board-pi-pico-w", "id": "pico", "top": 0, "left": 0, "attrs": {} },
@@ -9,20 +9,14 @@
       "id": "wokwi-pushbutton-0",
       "top": 57,
       "left": 166.2,
-      "rotate": 90,
+      "rotate": 180,
       "attrs": {}
     }
   ],
   "connections": [
-    [ "pico:GP0", "$serialMonitor:RX", "", [] ],
-    [ "pico:GP1", "$serialMonitor:TX", "", [] ],
-    [ "wokwi-pushbutton-0:2.l", "pico:GND.7", "green", [ "h-48.2", "v32.05" ] ],
-    [ "wokwi-pushbutton-0:2.r", "pico:GP27", "green", [ "h-48.2", "v-25.35" ] ]
+    [ "pico:GP27", "wokwi-pushbutton-0:1.r", "green", [ "h0" ] ],
+    [ "pico:GND.7", "wokwi-pushbutton-0:2.r", "black", [ "h0" ] ]
   ],
-  "dependencies": {},
-  "serialMonitor": {
-  "display": "always",
-  "newline": "lf",
-  "convertEol": false
-}
+  "serialMonitor": { "display": "always", "newline": "lf", "convertEol": false },
+  "dependencies": {}
 }
