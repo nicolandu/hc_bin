@@ -65,39 +65,50 @@ void loop() {
       delay(20);
     };
 
-    char c = ((millis() - start) > 120) ? '-' : '.';
+    char c = ((millis() - start) > 200) ? '-' : '.';
     Serial.print(c);
+    lcd.setCursor(min(seq.length(),15), 1);
     // 0 for -, 1 for .
     lcd.write(static_cast<unsigned char>(c=='.'));
     seq += c;
 
     start = millis();
 
-    while (digitalRead(27) != LOW && (millis() - start <= 600)) {
+    while (digitalRead(27) != LOW && (millis() - start <= 800)) {
+      auto elem = letters.find(seq);
+      if (elem != letters.end()) {
+        auto tmp = text + letters[seq];
+        auto len = tmp.length();
+        if (len > 16) {
+          tmp = tmp.substr(len-16, len);
+        }
+        lcd.setCursor(0, 0);
+        lcd.print(tmp.c_str());
+      }
       delay(20);
     };
-    if ((millis() - start) > 120) in_letter = false;
-    if ((millis() - start) > 600) in_word = false;
+    if ((millis() - start) > 200) in_letter = false;
+    if ((millis() - start) > 800) in_word = false;
   }
   auto elem = letters.find(seq);
   if (elem != letters.end()) {
     Serial.print(' ');
     Serial.println(letters[seq].c_str());
-    
+
     text += letters[seq];
-    if (!in_word) {
-      Serial.println();
-      text += " ";
-    }
     auto len = text.length();
     if (len > 16) {
       text = text.substr(len-16, len);
     }
-    lcd.setCursor(0, 0);
-    lcd.print(text.c_str());
   } else {
     Serial.println(" unknown");
+
   }
-  
+  lcd.clear();
+  lcd.print(text.c_str());
+  if (!in_word) {
+    Serial.println();
+    text += " ";
+  }
 }
 
