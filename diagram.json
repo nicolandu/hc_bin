@@ -7,15 +7,27 @@
     {
       "type": "wokwi-pushbutton",
       "id": "wokwi-pushbutton-0",
-      "top": 57,
-      "left": 166.2,
+      "top": 60,
+      "left": 163.4,
       "rotate": 180,
-      "attrs": {}
-    }
+      "attrs": { "key": "j", "bounce": "0" }
+    },
+    { "type": "wokwi-lcd1602", "id": "lcd", "top": -140.57, "left": -195.2, "attrs": {} }
   ],
   "connections": [
     [ "pico:GP27", "wokwi-pushbutton-0:1.r", "green", [ "h0" ] ],
-    [ "pico:GND.7", "wokwi-pushbutton-0:2.r", "black", [ "h0" ] ]
+    [ "pico:GND.7", "wokwi-pushbutton-0:2.r", "black", [ "h0" ] ],
+    [ "lcd:RS", "pico:GP12", "blue", [ "v0" ] ],
+    [ "lcd:VSS", "pico:GND.1", "black", [ "v0" ] ],
+    [ "lcd:RW", "pico:GND.1", "black", [ "v0" ] ],
+    [ "lcd:E", "pico:GP11", "purple", [ "v0" ] ],
+    [ "pico:GP10", "lcd:D4", "green", [ "h0" ] ],
+    [ "lcd:D5", "pico:GP9", "brown", [ "v0" ] ],
+    [ "lcd:D6", "pico:GP8", "gold", [ "v0" ] ],
+    [ "lcd:D7", "pico:GP7", "gray", [ "v0" ] ],
+    [ "lcd:K", "pico:GND.1", "black", [ "v0" ] ],
+    [ "pico:VBUS", "lcd:A", "red", [ "h13.46", "v-12.85", "h-115.1" ] ],
+    [ "lcd:VDD", "pico:VBUS", "red", [ "v9.6", "h240.1", "v9.6" ] ]
   ],
   "serialMonitor": { "display": "always", "newline": "lf", "convertEol": false },
   "dependencies": {}
