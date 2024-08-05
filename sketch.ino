@@ -1,35 +1,41 @@
-#include <algorithm>
 #include <string>
-#include <list>
+#include <map>
 
-const std::array<std::string, 4> letters = {".-", "-...", "-.-.", "-.."};
-
+std::map<std::string, char> letters = {{".-",'A'}, {"-...",'B'}, {"-.-.",'C'}, {"-..",'D'}, {".",'E'}, {"..-.",'F'}, {"--.",'G'}, {"....",'H'}, {"..",'I'}, {".---",'J'}, {"-.-",'K'}, {".-..",'L'}, {"--",'M'}, {"-.",'N'}, {"---",'O'}, {".--.",'P'}, {"--.-",'Q'}, {".-.",'R'}, {"...",'S'}, {"-",'T'}, {"..-",'U'}, {"...-",'V'}, {".--",'W'}, {"-..-",'X'}, {"-.--",'Y'}, {"--..",'Z'}, {".----",'1'}, {"..---",'2'}};
 void setup() {
   Serial.begin(9600); // opens serial port, sets data rate to 9600 bps
   pinMode(27, INPUT_PULLUP);
-  while (digitalRead(27) != LOW) {};
 }
 
 void loop() {
+  while (digitalRead(27) != LOW) {
+    delay(20);
+  };
   std::string seq = "";
   for (bool in_word = true; in_word;) {
 
-    unsigned long long delta = millis();
-    while (digitalRead(27) != HIGH) {};
-    delta = millis() - delta;
+    unsigned long long start = millis();
+    while (digitalRead(27) != HIGH) {
+      delay(20);
+    };
 
-    seq += (delta > 300) ? '-' : '.';
-    Serial.print(delta);
+    char c = ((millis() - start) > 200) ? '-' : '.';
+    Serial.print(c);
+    seq += c;
 
-    delta = millis();
-    while (digitalRead(27) != LOW) {};
-    delta = millis() - delta;
-    Serial.println(delta);
+    start = millis();
 
-    if (delta > 300) in_word = false;
+    while (digitalRead(27) != LOW && (millis() - start <= 200)) {
+      delay(20);
+    };
+    if ((millis() - start) > 200) in_word = false;
   }
-  auto it = std::find(letters.begin(), letters.end(), seq);
-  if (it != letters.end()) {
-    Serial.print('A'+(it-letters.begin()));
+  auto elem = letters.find(seq);
+  if (elem != letters.end()) {
+    Serial.print(' ');
+    Serial.println(letters[seq]);
+  } else {
+    Serial.println(" unknown");
   }
 }
+
